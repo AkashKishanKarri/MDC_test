@@ -1,9 +1,10 @@
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
+import mdcImage from "../../MDCidea.png"
 
 export default function AboutMDC() {
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
+        <section className="py-10 bg-white relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-gray-50 -skew-x-12 translate-x-1/4"></div>
 
@@ -18,7 +19,6 @@ export default function AboutMDC() {
                     className="flex-1"
                 >
                     <div className="inline-flex items-center gap-2 text-blue-600 font-semibold tracking-wider uppercase text-sm mb-4">
-                        <div className="w-8 h-[2px] bg-blue-600"></div>
                         Who We Are
                     </div>
 
@@ -47,7 +47,7 @@ export default function AboutMDC() {
                     </Link>
                 </motion.div>
 
-                {/* Right Side: Visual/Stats */}
+                {/* Right Side: MDC Image */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -56,25 +56,12 @@ export default function AboutMDC() {
                     className="flex-1 w-full"
                 >
                     <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-white border border-gray-100 p-2">
-                        <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center relative overflow-hidden">
-                            {/* Abstract Graphic */}
-                            <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                className="w-[150%] h-[150%] absolute"
-                                style={{
-                                    background: "conic-gradient(from 0deg at 50% 50%, rgba(59, 130, 246, 0.1) 0deg, rgba(99, 102, 241, 0.1) 180deg, rgba(59, 130, 246, 0.1) 360deg)"
-                                }}
+                        <div className="rounded-2xl overflow-hidden">
+                            <img
+                                src={mdcImage}
+                                alt="Meta Developer Communities"
+                                className="w-full h-auto object-cover rounded-2xl"
                             />
-
-                            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-gray-200/50 to-transparent"></div>
-
-                            {/* Central Icon */}
-                            <div className="w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center relative z-10">
-                                <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent text-3xl font-black tracking-widest">
-                                    MDC
-                                </span>
-                            </div>
                         </div>
 
                         {/* Floating Stat Card */}

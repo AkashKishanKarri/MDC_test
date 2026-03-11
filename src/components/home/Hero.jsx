@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 export default function Hero() {
     return (
-        <section className="relative min-h-[90vh] flex items-center bg-gray-50 overflow-hidden">
+        <section className="relative min-h-[90vh] flex items-center bg-gray-50 overflow-hidden pb-0">
 
             {/* Background Effects */}
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/20 rounded-full blur-[120px] pointer-events-none"></div>
@@ -88,7 +88,7 @@ export default function Hero() {
                         initial={{ opacity: 0, scale: 0.8, rotateY: 20 }}
                         animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                         transition={{ duration: 1, delay: 0.4 }}
-                        className="absolute top-20 left-10 w-72 h-80 bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] p-6 flex flex-col justify-between"
+                        className="absolute top-20 left-10 w-90 h-80 bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] p-6 flex flex-col justify-between"
                         style={{ transformStyle: 'preserve-3d' }}
                     >
                         <div className="flex justify-between items-start">
@@ -111,7 +111,7 @@ export default function Hero() {
                             <div className="text-xl font-bold font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                                 {"print(\"Welcome to MDC\")"}
                             </div>
-                            <div className="h-2 w-1/3 bg-gray-200 rounded-full mb-3"></div>
+                            {/* <div className="h-2 w-1/3 bg-gray-200 rounded-full mb-3"></div> */}
                         </div>
                     </motion.div>
 

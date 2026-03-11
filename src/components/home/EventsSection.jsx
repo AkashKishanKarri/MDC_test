@@ -31,7 +31,7 @@ export default function EventsSection() {
     }, [])
 
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
+        <section className="py-10 bg-white relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-gray-50 to-white pointer-events-none"></div>
 

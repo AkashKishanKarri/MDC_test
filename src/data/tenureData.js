@@ -39,12 +39,12 @@ const tenureData = {
         domains: ["EB", "WebArcs", "DataVerse", "CP", "Content", "Design", "PR", "Photography"],
         members: {
             EB: [
-                { name: "VINNAKOTA NITISH RAJ", role: "President" },
-                { name: "PALLA JOTHISK NANDAN", role: "Vice President" },
-                { name: "RACHAKONDA V S S GAGAN", role: "Secretary", ext: "webp" },
-                { name: "SNEHAL ANDAVARAPU", role: "Treasurer" },
-                { name: "SRAVANI KALISETTY", role: "Joint Secretary" },
-                { name: "ISHITA GUPTA", role: "Joint Secretary" },
+                { name: "VINNAKOTA NITISH RAJ", role: "President", phone: "+91 98765 43210", email: "president@mdc.com", linkedin: "https://linkedin.com/in/" },
+                { name: "PALLA JOTHISK NANDAN", role: "Vice President", phone: "+91 98765 43211", email: "vp@mdc.com", linkedin: "https://linkedin.com/in/" },
+                { name: "RACHAKONDA V S S GAGAN", role: "Secretary", ext: "webp", phone: "+91 98765 43212", email: "secretary@mdc.com", linkedin: "https://linkedin.com/in/" },
+                { name: "SNEHAL ANDAVARAPU", role: "Treasurer", phone: "+91 98765 43213", email: "treasurer@mdc.com", linkedin: "https://linkedin.com/in/" },
+                { name: "SRAVANI KALISETTY", role: "Joint Secretary", phone: "+91 98765 43214", email: "js1@mdc.com", linkedin: "https://linkedin.com/in/" },
+                { name: "ISHITA GUPTA", role: "Joint Secretary", phone: "+91 98765 43215", email: "js2@mdc.com", linkedin: "https://linkedin.com/in/" },
             ],
             WebArcs: [
                 { name: "PONASANAPALLI MOHAN TANUJ", role: "Lead" },
@@ -176,6 +176,9 @@ export function getTenureMembers(year) {
                 name: formatName(memberName),
                 role,
                 img: buildPath(data.folderPrefix, domain, data.yearSuffix, memberName, ext),
+                phone: entry.phone || "",
+                email: entry.email || "",
+                linkedin: entry.linkedin || "",
             }
         }),
     }))

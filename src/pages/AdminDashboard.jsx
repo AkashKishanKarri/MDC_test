@@ -2,13 +2,16 @@ import { useState } from "react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase/firebase"
 import { motion } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 
 export default function AdminDashboard() {
+    const navigate = useNavigate()
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [domain, setDomain] = useState("")
     const [year, setYear] = useState("2025-26")
+    const [date, setDate] = useState("")
     const [images, setImages] = useState([""])
     const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -39,6 +42,7 @@ export default function AdminDashboard() {
                 description,
                 domain,
                 year,
+                date,
                 images: images.filter(img => img !== ""),
                 createdAt: serverTimestamp()
             })
@@ -49,6 +53,7 @@ export default function AdminDashboard() {
             setDescription("")
             setDomain("")
             setYear("2025-26")
+            setDate("")
             setImages([""])
 
         } catch (error) {
@@ -57,6 +62,10 @@ export default function AdminDashboard() {
         } finally {
             setIsSubmitting(false)
         }
+    }
+
+    const handleLogout = () => {
+        navigate("/admin")
     }
 
     return (
@@ -69,12 +78,23 @@ export default function AdminDashboard() {
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-10 text-center"
+                    className="mb-10 flex flex-col items-center"
                 >
                     <h2 className="text-4xl font-extrabold text-gray-900">
                         Admin Dashboard
                     </h2>
                     <p className="text-gray-500 mt-2">Manage and publish MDC events</p>
+
+                    {/* Logout Button */}
+                    <button
+                        onClick={handleLogout}
+                        className="mt-6 flex items-center gap-2 px-6 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 font-semibold rounded-full transition-colors border border-red-200 shadow-sm"
+                    >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Logout
+                    </button>
                 </motion.div>
 
                 <motion.form
@@ -119,17 +139,29 @@ export default function AdminDashboard() {
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Academic Year</label>
-                        <select
-                            value={year}
-                            onChange={(e) => setYear(e.target.value)}
-                            className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all cursor-pointer"
-                        >
-                            {years.map((y, i) => (
-                                <option key={i} value={y}>{y}</option>
-                            ))}
-                        </select>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Academic Year</label>
+                            <select
+                                value={year}
+                                onChange={(e) => setYear(e.target.value)}
+                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all cursor-pointer"
+                            >
+                                {years.map((y, i) => (
+                                    <option key={i} value={y}>{y}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Event Date</label>
+                            <input
+                                type="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all cursor-pointer"
+                            />
+                        </div>
                     </div>
 
                     <div>

@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useLocation } from "react-router-dom"
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Pagination, Autoplay } from "swiper/modules"
+import { Autoplay } from "swiper/modules"
 import "swiper/css"
-import "swiper/css/navigation"
-import "swiper/css/pagination"
 import { getTenureMembers } from "../../data/tenureData"
 
 // Animated Domain Icons
 const DomainIcon = ({ domain }) => {
     const icons = {
         EB: (
-            // Animated management / people icon
             <div className="relative w-7 h-7">
-                {/* Central figure */}
                 <motion.div
                     animate={{ y: [0, -2, 0] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -25,82 +21,59 @@ const DomainIcon = ({ domain }) => {
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     className="absolute left-1/2 top-3 -translate-x-1/2 w-5 h-3 bg-white/70 rounded-t-full"
                 />
-                {/* Left figure */}
                 <motion.div
                     animate={{ x: [0, -1, 0], opacity: [0.6, 0.9, 0.6] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
                     className="absolute left-0 top-1 w-2 h-2 bg-white/60 rounded-full"
                 />
                 <motion.div
-                    animate={{ x: [0, -1, 0], opacity: [0.6, 0.9, 0.6] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
-                    className="absolute left-0 top-3 w-3 h-2 bg-white/50 rounded-t-full"
-                />
-                {/* Right figure */}
-                <motion.div
                     animate={{ x: [0, 1, 0], opacity: [0.6, 0.9, 0.6] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
                     className="absolute right-0 top-1 w-2 h-2 bg-white/60 rounded-full"
                 />
-                <motion.div
-                    animate={{ x: [0, 1, 0], opacity: [0.6, 0.9, 0.6] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-                    className="absolute right-0 top-3 w-3 h-2 bg-white/50 rounded-t-full"
-                />
             </div>
         ),
         WebArcs: (
-            // Animated globe / web icon
             <div className="relative w-7 h-7">
                 <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                     className="absolute inset-0 border-2 border-white/80 rounded-full"
                 />
-                {/* Horizontal line */}
                 <div className="absolute top-1/2 left-0 right-0 h-[1.5px] bg-white/50 -translate-y-1/2" />
-                {/* Vertical ellipse */}
                 <motion.div
                     animate={{ scaleX: [0.5, 1, 0.5] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                     className="absolute inset-0 border-2 border-white/50 rounded-full"
                 />
-                {/* Orbital dot */}
-                <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0"
-                >
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[1px] w-1.5 h-1.5 bg-white rounded-full shadow-sm" />
-                </motion.div>
             </div>
         ),
         DataVerse: (
-            // Animated data / database flow
-            <div className="relative w-7 h-7 flex flex-col items-center justify-center gap-[3px]">
-                {[0, 1, 2].map(i => (
+            // Statistical chart icon with animated bars and trend line
+            <div className="relative w-7 h-7 flex items-end justify-center gap-[2px] pb-[2px]">
+                {[40, 70, 50, 90, 60].map((h, i) => (
                     <motion.div
                         key={i}
-                        animate={{ scaleX: [0.8, 1, 0.8], opacity: [0.5, 1, 0.5] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-                        className="w-5 h-[5px] bg-white/80 rounded-full"
+                        animate={{ height: [`${h * 0.3}%`, `${h}%`, `${h * 0.3}%`] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
+                        className="w-[3px] bg-white/80 rounded-t-sm"
+                        style={{ minHeight: 2 }}
                     />
                 ))}
-                {/* Floating data particles */}
+                {/* Trend line */}
                 <motion.div
-                    animate={{ y: [-2, -8], opacity: [1, 0], x: [0, 3] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
-                    className="absolute top-1 right-0 w-1 h-1 bg-white rounded-full"
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute bottom-[2px] left-0 right-0 h-[1px] bg-white/60"
                 />
                 <motion.div
-                    animate={{ y: [-2, -8], opacity: [1, 0], x: [0, -3] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.8 }}
-                    className="absolute top-2 left-0 w-1 h-1 bg-white rounded-full"
+                    animate={{ y: [-2, -6], opacity: [1, 0], x: [0, 3] }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
+                    className="absolute top-0 right-0 w-1 h-1 bg-white rounded-full"
                 />
             </div>
         ),
         CP: (
-            // Animated code brackets
             <div className="relative w-7 h-7 flex items-center justify-center">
                 <motion.span
                     animate={{ x: [-1, -3, -1] }}
@@ -120,7 +93,6 @@ const DomainIcon = ({ domain }) => {
             </div>
         ),
         Content: (
-            // Animated writing / pencil
             <div className="relative w-7 h-7">
                 <motion.div
                     animate={{ rotate: [0, -5, 0, 5, 0], y: [0, -1, 0] }}
@@ -131,36 +103,33 @@ const DomainIcon = ({ domain }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                 </motion.div>
-                {/* Writing sparkles */}
-                <motion.div
-                    animate={{ scale: [0, 1, 0], opacity: [0, 1, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
-                    className="absolute bottom-0 left-1 w-1.5 h-1.5 bg-white/60 rounded-full"
-                />
             </div>
         ),
         Design: (
-            // Animated palette / shapes
+            // Painting / brush animation
             <div className="relative w-7 h-7">
+                {/* Paint brush stroke */}
                 <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0"
+                    animate={{ x: [-3, 3, -3], rotate: [-10, 10, -10] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute inset-0 flex items-center justify-center"
                 >
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-pink-200 rounded-full" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-yellow-200 rounded-full" />
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-green-200 rounded-full" />
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-200 rounded-full" />
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                    </svg>
                 </motion.div>
-                <motion.div
-                    animate={{ scale: [1, 1.15, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute inset-1.5 bg-white/30 rounded-full"
-                />
+                {/* Paint splashes */}
+                {[0, 1, 2].map(i => (
+                    <motion.div
+                        key={i}
+                        animate={{ scale: [0, 1, 0], opacity: [0, 0.8, 0] }}
+                        transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.5 }}
+                        className={`absolute w-1.5 h-1.5 rounded-full ${i === 0 ? 'bg-pink-200 top-0 right-1' : i === 1 ? 'bg-yellow-200 bottom-1 left-0' : 'bg-green-200 top-2 right-0'}`}
+                    />
+                ))}
             </div>
         ),
         PR: (
-            // Animated megaphone with sound waves
             <div className="relative w-7 h-7 flex items-center justify-center">
                 <motion.div
                     animate={{ rotate: [-5, 5, -5] }}
@@ -170,7 +139,6 @@ const DomainIcon = ({ domain }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
                     </svg>
                 </motion.div>
-                {/* Sound waves */}
                 {[0, 1, 2].map(i => (
                     <motion.div
                         key={i}
@@ -182,7 +150,6 @@ const DomainIcon = ({ domain }) => {
             </div>
         ),
         Photography: (
-            // Animated camera with flash
             <div className="relative w-7 h-7 flex items-center justify-center">
                 <motion.div
                     animate={{ scale: [1, 0.95, 1] }}
@@ -193,7 +160,6 @@ const DomainIcon = ({ domain }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                 </motion.div>
-                {/* Flash effect */}
                 <motion.div
                     animate={{ scale: [0, 1.5, 0], opacity: [0, 0.8, 0] }}
                     transition={{ duration: 2.5, repeat: Infinity, delay: 1 }}
@@ -202,7 +168,6 @@ const DomainIcon = ({ domain }) => {
             </div>
         ),
         ARVR: (
-            // Animated 3D cube
             <div className="relative w-7 h-7 flex items-center justify-center">
                 <motion.div
                     animate={{ rotateY: [0, 180, 360], rotateX: [0, 15, 0] }}
@@ -220,20 +185,38 @@ const DomainIcon = ({ domain }) => {
 }
 
 // Role badge color mapping
-const roleBadgeColors = {
-    "President": "bg-amber-100 text-amber-800 border-amber-200",
-    "Vice President": "bg-blue-100 text-blue-800 border-blue-200",
-    "Secretary": "bg-emerald-100 text-emerald-800 border-emerald-200",
-    "Treasurer": "bg-purple-100 text-purple-800 border-purple-200",
-    "Joint Secretary": "bg-cyan-100 text-cyan-800 border-cyan-200",
-    "Lead": "bg-indigo-100 text-indigo-800 border-indigo-200",
-    "Member": "bg-gray-100 text-gray-600 border-gray-200",
+const roleBadgeStyles = {
+    "President": { bg: "bg-gradient-to-r from-amber-500 to-orange-500", text: "text-white", glow: "shadow-amber-300/40", ring: "from-amber-400 to-orange-500" },
+    "Vice President": { bg: "bg-gradient-to-r from-blue-500 to-indigo-500", text: "text-white", glow: "shadow-blue-300/40", ring: "from-blue-400 to-indigo-500" },
+    "Secretary": { bg: "bg-gradient-to-r from-emerald-500 to-teal-500", text: "text-white", glow: "shadow-emerald-300/40", ring: "from-emerald-400 to-teal-500" },
+    "Treasurer": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white", glow: "shadow-purple-300/40", ring: "from-purple-400 to-violet-500" },
+    "Joint Secretary": { bg: "bg-gradient-to-r from-cyan-500 to-blue-500", text: "text-white", glow: "shadow-cyan-300/40", ring: "from-cyan-400 to-blue-500" },
+    "Lead": { bg: "bg-gradient-to-r from-indigo-500 to-blue-500", text: "text-white", glow: "shadow-indigo-300/40", ring: "from-indigo-400 to-blue-500" },
+    "Member": { bg: "bg-gray-100", text: "text-gray-600", glow: "", ring: "from-gray-300 to-gray-400" },
 }
+
+// Contact Icons
+const PhoneIcon = () => (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+    </svg>
+)
+const EmailIcon = () => (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+)
+const LinkedInIcon = () => (
+    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+    </svg>
+)
 
 export default function AcademicTenure() {
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
     const initialYear = queryParams.get('year') || "2025-26"
+    const sectionRef = useRef(null)
 
     const [selectedYear, setSelectedYear] = useState(initialYear)
     const [domainSections, setDomainSections] = useState([])
@@ -249,10 +232,20 @@ export default function AcademicTenure() {
 
     useEffect(() => {
         setDomainSections(getTenureMembers(selectedYear))
+        // Scroll to top of section when year changes
+        if (sectionRef.current) {
+            sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
+        }
     }, [selectedYear])
 
+    const handleYearChange = (e) => {
+        setSelectedYear(e.target.value)
+    }
+
+    const isEB = (domain) => domain === "EB"
+
     return (
-        <section className="min-h-screen px-6 pt-32 pb-20 bg-gray-50 text-gray-900 relative overflow-hidden">
+        <section ref={sectionRef} className="min-h-screen px-6 pt-32 pb-20 bg-gray-50 text-gray-900 relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-96 bg-blue-100/50 blur-[120px] pointer-events-none"></div>
 
@@ -271,30 +264,27 @@ export default function AcademicTenure() {
                     </p>
                 </motion.div>
 
-                {/* Year Selector */}
-                <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
-                    {years.map(year => (
-                        <button
-                            key={year}
-                            onClick={() => setSelectedYear(year)}
-                            className={`relative px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 ${selectedYear === year
-                                ? "text-blue-600 font-bold"
-                                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
-                                }`}
+                {/* Year Dropdown Selector */}
+                <div className="flex justify-center mb-16">
+                    <div className="relative">
+                        <select
+                            value={selectedYear}
+                            onChange={handleYearChange}
+                            className="appearance-none bg-white border border-gray-200 text-gray-900 text-lg font-semibold px-8 py-3 pr-12 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer transition-all hover:border-blue-300"
                         >
-                            {selectedYear === year && (
-                                <motion.div
-                                    layoutId="activeYear"
-                                    className="absolute inset-0 bg-white shadow-sm border border-gray-200 rounded-full"
-                                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                />
-                            )}
-                            <span className="relative z-10">{year}</span>
-                        </button>
-                    ))}
+                            {years.map(year => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Domain Sections — Continuous Scroll */}
+                {/* Domain Sections */}
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={selectedYear}
@@ -330,64 +320,128 @@ export default function AcademicTenure() {
                                     <div className="flex-1 h-px bg-gradient-to-r from-gray-200 to-transparent ml-4"></div>
                                 </div>
 
-                                {/* Members Carousel */}
+                                {/* Members Display */}
                                 {section.members.length > 0 ? (
-                                    <Swiper
-                                        modules={[Navigation, Pagination, Autoplay]}
-                                        spaceBetween={20}
-                                        slidesPerView={2}
-                                        navigation
-                                        pagination={{ clickable: true }}
-                                        autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-                                        breakpoints={{
-                                            480: { slidesPerView: 2, spaceBetween: 16 },
-                                            640: { slidesPerView: 3, spaceBetween: 20 },
-                                            768: { slidesPerView: 4, spaceBetween: 20 },
-                                            1024: { slidesPerView: 5, spaceBetween: 24 },
-                                        }}
-                                        className="pb-12"
-                                        style={{
-                                            "--swiper-navigation-color": "#2563eb",
-                                            "--swiper-pagination-color": "#2563eb",
-                                            "--swiper-navigation-size": "24px",
-                                        }}
-                                    >
-                                        {section.members.map((member, memberIndex) => (
-                                            <SwiperSlide key={memberIndex}>
-                                                <motion.div
-                                                    whileHover={{ y: -6 }}
-                                                    className="group"
-                                                >
-                                                    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300">
-                                                        {/* Photo */}
-                                                        <div className="aspect-[3/4] overflow-hidden bg-gray-100 relative">
+                                    isEB(section.domain) ? (
+                                        /* EB: Smooth continuous carousel */
+                                        <Swiper
+                                            modules={[Autoplay]}
+                                            spaceBetween={24}
+                                            slidesPerView={2}
+                                            loop={section.members.length > 3}
+                                            speed={3000}
+                                            autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                                            breakpoints={{
+                                                480: { slidesPerView: 2 },
+                                                640: { slidesPerView: 3 },
+                                                768: { slidesPerView: 4 },
+                                                1024: { slidesPerView: 5 },
+                                            }}
+                                            className="pb-4"
+                                            style={{ "--swiper-wrapper-transition-timing-function": "linear" }}
+                                        >
+                                            {section.members.map((member, memberIndex) => (
+                                                <SwiperSlide key={memberIndex}>
+                                                    {(() => {
+                                                        const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
+                                                        return (
+                                                            <div className="text-center py-3">
+                                                                {/* Large round image with gradient ring */}
+                                                                <div className={`w-36 h-36 mx-auto mb-4 rounded-full p-1 bg-gradient-to-br ${style.ring} shadow-xl ${style.glow}`}>
+                                                                    <div className="w-full h-full rounded-full overflow-hidden bg-white">
+                                                                        <img
+                                                                            src={member.img}
+                                                                            alt={member.name}
+                                                                            className="w-full h-full object-cover object-top"
+                                                                            loading="lazy"
+                                                                            onError={(e) => {
+                                                                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
+                                                                            }}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                {/* Name */}
+                                                                <p className="text-base font-bold text-gray-900 leading-tight mb-2">
+                                                                    {member.name}
+                                                                </p>
+                                                                {/* Styled Designation badge */}
+                                                                <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-4 py-1.5 rounded-full shadow-md ${style.bg} ${style.text}`}>
+                                                                    <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                                                                    {member.role}
+                                                                    <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
+                                                                </span>
+                                                                {/* Contact icons for EB */}
+                                                                <div className="flex justify-center gap-2 mt-3">
+                                                                    {member.phone && (
+                                                                        <a href={`tel:${member.phone}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Phone">
+                                                                            <PhoneIcon />
+                                                                        </a>
+                                                                    )}
+                                                                    {member.email && (
+                                                                        <a href={`mailto:${member.email}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
+                                                                            <EmailIcon />
+                                                                        </a>
+                                                                    )}
+                                                                    {member.linkedin && (
+                                                                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
+                                                                            <LinkedInIcon />
+                                                                        </a>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })()}
+                                                </SwiperSlide>
+                                            ))}
+                                        </Swiper>
+                                    ) : (
+                                        /* Domain members: stacked flex-wrap grid, no hover */
+                                        <div className="flex flex-wrap gap-6 justify-start">
+                                            {section.members.map((member, memberIndex) => {
+                                                const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
+                                                return (
+                                                    <div
+                                                        key={memberIndex}
+                                                        className="w-[170px] text-center"
+                                                    >
+                                                        {/* Larger static image */}
+                                                        <div className="w-36 h-44 mx-auto mb-3 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-md">
                                                             <img
                                                                 src={member.img}
                                                                 alt={member.name}
-                                                                className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                                                                className="w-full h-full object-cover object-top"
                                                                 loading="lazy"
                                                                 onError={(e) => {
-                                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=200&font-size=0.35`
+                                                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
                                                                 }}
                                                             />
-                                                            {/* Hover gradient overlay */}
-                                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                                         </div>
-
-                                                        {/* Name + Role */}
-                                                        <div className="p-3 text-center">
-                                                            <p className="text-sm font-semibold text-gray-800 leading-tight line-clamp-2 mb-1.5">
-                                                                {member.name}
-                                                            </p>
-                                                            <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full border ${roleBadgeColors[member.role] || roleBadgeColors.Member}`}>
-                                                                {member.role}
-                                                            </span>
-                                                        </div>
+                                                        <p className="text-sm font-semibold text-gray-800 leading-tight mb-1.5 line-clamp-2">
+                                                            {member.name}
+                                                        </p>
+                                                        <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-3 py-1 rounded-full shadow-sm ${style.bg} ${style.text}`}>
+                                                            {member.role}
+                                                        </span>
+                                                        {/* Email + LinkedIn for domain members */}
+                                                        {(member.email || member.linkedin) && (
+                                                            <div className="flex justify-center gap-1.5 mt-2">
+                                                                {member.email && (
+                                                                    <a href={`mailto:${member.email}`} className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
+                                                                        <EmailIcon />
+                                                                    </a>
+                                                                )}
+                                                                {member.linkedin && (
+                                                                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
+                                                                        <LinkedInIcon />
+                                                                    </a>
+                                                                )}
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                </motion.div>
-                                            </SwiperSlide>
-                                        ))}
-                                    </Swiper>
+                                                )
+                                            })}
+                                        </div>
+                                    )
                                 ) : (
                                     <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center">
                                         <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">

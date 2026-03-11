@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { db } from "../firebase/firebase"
 import { motion, AnimatePresence } from "framer-motion"
@@ -10,6 +10,7 @@ export default function Events() {
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
     const initialYear = queryParams.get('year') || "2025-26"
+    const sectionRef = useRef(null)
 
     const [selectedYear, setSelectedYear] = useState(initialYear)
     const [selectedEvent, setSelectedEvent] = useState(null)
@@ -27,7 +28,23 @@ export default function Events() {
 
     useEffect(() => {
         fetchEvents()
+        // Scroll to top of section when year changes
+        if (sectionRef.current) {
+            sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
+        }
     }, [selectedYear])
+
+    // Freeze body scroll when modal is open
+    useEffect(() => {
+        if (selectedEvent) {
+            document.body.style.overflow = "hidden"
+        } else {
+            document.body.style.overflow = ""
+        }
+        return () => {
+            document.body.style.overflow = ""
+        }
+    }, [selectedEvent])
 
     const fetchEvents = async () => {
         setLoading(true)
@@ -68,8 +85,12 @@ export default function Events() {
         setSelectedEvent(event);
     };
 
+    const handleYearChange = (e) => {
+        setSelectedYear(e.target.value)
+    }
+
     return (
-        <section className="min-h-screen px-6 pt-32 pb-20 bg-gray-50 text-gray-900 relative overflow-hidden">
+        <section ref={sectionRef} className="min-h-screen px-6 pt-32 pb-20 bg-gray-50 text-gray-900 relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute top-0 left-0 w-full h-96 bg-blue-100/50 blur-[120px] pointer-events-none"></div>
 
@@ -88,26 +109,24 @@ export default function Events() {
                     </p>
                 </motion.div>
 
-                <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
-                    {years.map(year => (
-                        <button
-                            key={year}
-                            onClick={() => setSelectedYear(year)}
-                            className={`relative px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 ${selectedYear === year
-                                ? "text-blue-600 font-bold"
-                                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
-                                }`}
+                {/* Year Dropdown Selector */}
+                <div className="flex justify-center mb-16">
+                    <div className="relative">
+                        <select
+                            value={selectedYear}
+                            onChange={handleYearChange}
+                            className="appearance-none bg-white border border-gray-200 text-gray-900 text-lg font-semibold px-8 py-3 pr-12 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer transition-all hover:border-blue-300"
                         >
-                            {selectedYear === year && (
-                                <motion.div
-                                    layoutId="activeEventYear"
-                                    className="absolute inset-0 bg-white shadow-sm border border-gray-200 rounded-full"
-                                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                />
-                            )}
-                            <span className="relative z-10">{year}</span>
-                        </button>
-                    ))}
+                            {years.map(year => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-blue-600">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
                 {loading ? (
@@ -161,10 +180,15 @@ export default function Events() {
                                     </div>
 
                                     <div className="p-6 flex-1 flex flex-col">
-                                        <div className="flex items-center gap-2 mb-3">
+                                        <div className="flex items-center gap-2 mb-3 flex-wrap">
                                             {event.domain && (
                                                 <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-md">
                                                     {event.domain}
+                                                </span>
+                                            )}
+                                            {event.date && (
+                                                <span className="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-md">
+                                                    {event.date}
                                                 </span>
                                             )}
                                         </div>
@@ -181,7 +205,7 @@ export default function Events() {
                     </div>
                 )}
 
-                {/* Expanded Modal */}
+                {/* Expanded Modal — fixed z-index below navbar, smaller, frozen background */}
                 <AnimatePresence>
                     {selectedEvent && (
                         <>
@@ -190,12 +214,12 @@ export default function Events() {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 onClick={() => setSelectedEvent(null)}
-                                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 md:p-8"
+                                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 flex items-center justify-center p-4 md:p-8"
                             >
                                 <motion.div
                                     layoutId={`event-${selectedEvent.id}`}
                                     onClick={(e) => e.stopPropagation()}
-                                    className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl relative flex flex-col"
+                                    className="bg-white w-full max-w-3xl max-h-[80vh] overflow-y-auto rounded-3xl shadow-2xl relative flex flex-col mt-16"
                                 >
                                     <button
                                         onClick={() => setSelectedEvent(null)}
@@ -206,7 +230,7 @@ export default function Events() {
                                         </svg>
                                     </button>
 
-                                    <div className="relative h-64 md:h-96 w-full bg-gray-100 shrink-0">
+                                    <div className="relative h-56 md:h-72 w-full bg-gray-100 shrink-0">
                                         {selectedEvent.images && selectedEvent.images.length > 0 ? (
                                             <>
                                                 <motion.img
@@ -268,6 +292,14 @@ export default function Events() {
                                             <span className="bg-gray-100 text-gray-700 text-sm font-semibold px-3 py-1.5 rounded-lg border border-gray-200">
                                                 {selectedEvent.year}
                                             </span>
+                                            {selectedEvent.date && (
+                                                <span className="bg-green-50 text-green-700 text-sm font-semibold px-3 py-1.5 rounded-lg border border-green-200 flex items-center gap-1.5">
+                                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                    {selectedEvent.date}
+                                                </span>
+                                            )}
                                         </div>
                                         <h2 className="text-3xl font-extrabold text-gray-900 mb-6">
                                             {selectedEvent.title}

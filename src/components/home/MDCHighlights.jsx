@@ -1,214 +1,270 @@
 import { motion } from "framer-motion"
 
-// Custom Illustrations
-const WebIllustration = () => (
-    <div className="absolute inset-0 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white">
-        <motion.div
-            initial={{ y: 20, scale: 0.9 }}
-            whileHover={{ y: 0, scale: 1 }}
-            className="w-full h-full bg-white rounded-lg border border-gray-100 shadow-xl overflow-hidden flex flex-col"
-        >
-            <div className="h-4 bg-gray-50 flex items-center px-2 gap-1.5 border-b border-gray-100">
-                <div className="w-1.5 h-1.5 rounded-full bg-red-400"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-green-400"></div>
-            </div>
-            <div className="flex-1 p-3 flex flex-col gap-2">
-                <motion.div className="h-6 w-1/3 bg-blue-50 rounded border border-blue-100" layoutId="nav"></motion.div>
-                <div className="flex gap-2 h-full">
-                    <motion.div className="flex-1 bg-indigo-50 rounded border border-indigo-100" layoutId="hero"></motion.div>
-                    <motion.div className="w-1/4 bg-gray-100 rounded border border-gray-200" layoutId="sidebar"></motion.div>
-                </div>
-            </div>
-        </motion.div>
-    </div>
-)
-
-const DataIllustration = () => (
-    <div className="absolute inset-0 flex items-end justify-center p-6 pb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white">
-        <div className="w-full h-full relative flex items-end gap-2 px-2 border-b border-l border-gray-200 pb-2 ml-4">
-            {[40, 70, 45, 90, 60, 100].map((height, i) => (
+// Highly animated domain icon components
+const DomainAnimatedIcons = {
+    DataVerse: () => (
+        <div className="relative w-8 h-8 flex items-end justify-center gap-[3px] pb-1">
+            {[35, 65, 45, 80, 55].map((h, i) => (
                 <motion.div
                     key={i}
-                    initial={{ height: 0 }}
-                    whileInView={{ height: `${height}% ` }}
-                    transition={{ delay: i * 0.1, duration: 0.5, type: "spring" }}
-                    className="flex-1 bg-purple-500 rounded-t-sm"
-                    style={{ opacity: 0.6 + (i * 0.1) }}
-                ></motion.div>
-            ))}
-            <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100">
-                <motion.path
-                    initial={{ pathLength: 0 }}
-                    whileInView={{ pathLength: 1 }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                    fill="none"
-                    stroke="#a855f7"
-                    strokeWidth="3"
-                    d="M 5 60 Q 20 20, 35 50 T 65 10 T 95 30"
+                    animate={{ height: [`${h * 0.2}%`, `${h}%`, `${h * 0.2}%`] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }}
+                    className="w-[4px] bg-white/90 rounded-t-sm origin-bottom"
+                    style={{ minHeight: 3 }}
                 />
-            </svg>
+            ))}
+            <motion.svg
+                className="absolute -top-0.5 left-0 w-full h-full"
+                viewBox="0 0 32 32"
+                fill="none"
+            >
+                <motion.path
+                    d="M2 28 L8 18 L14 22 L20 10 L26 14 L30 4"
+                    stroke="white"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    fill="none"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: [0, 1, 0], opacity: [0, 1, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                />
+            </motion.svg>
+            <motion.div
+                animate={{ scale: [0, 1, 0], y: [-2, -8], opacity: [1, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+                className="absolute top-0 right-1 w-1.5 h-1.5 bg-white rounded-full"
+            />
         </div>
-    </div>
-)
-
-const CreativeIllustration = () => (
-    <div className="absolute inset-0 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white">
-        <div className="relative w-full h-full">
+    ),
+    WebArcs: () => (
+        <div className="relative w-8 h-8">
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border-2 border-dashed border-pink-400/50 rounded-full"
-            ></motion.div>
-            <motion.div
-                whileHover={{ scale: 1.2, rotate: 15 }}
-                className="absolute top-4 left-4 w-12 h-12 bg-rose-400 rounded-lg shadow-lg"
-            ></motion.div>
-            <motion.div
-                whileHover={{ scale: 1.2, rotate: -15 }}
-                className="absolute bottom-4 right-4 w-16 h-16 bg-pink-400 rounded-full shadow-lg"
-            ></motion.div>
-            <motion.div
-                whileHover={{ scale: 1.2, rotate: 45 }}
-                className="absolute bottom-8 left-8 w-10 h-10 border-4 border-gray-100 transform rotate-12"
-            ></motion.div>
-        </div>
-    </div>
-)
-
-const HackathonIllustration = () => (
-    <div className="absolute inset-0 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white">
-        <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="w-full h-full bg-white rounded-xl border border-gray-100 flex flex-col items-center justify-center font-mono shadow-xl"
-        >
-            <div className="text-gray-500 text-sm mb-2 font-semibold">TIME REMAINING</div>
-            <div className="flex items-center gap-2 text-3xl font-bold text-amber-500">
-                <motion.div animate={{ opacity: [1, 0.5, 1] }} transition={{ repeat: Infinity, duration: 1 }}>23</motion.div>
-                <div className="text-gray-300">:</div>
-                <motion.div animate={{ opacity: [1, 0.5, 1] }} transition={{ repeat: Infinity, duration: 1, delay: 0.2 }}>59</motion.div>
-                <div className="text-gray-300">:</div>
-                <motion.div animate={{ opacity: [1, 0.5, 1] }} transition={{ repeat: Infinity, duration: 1, delay: 0.4 }}>59</motion.div>
-            </div>
-            <div className="mt-4 w-3/4 h-2 bg-gray-100 rounded-full overflow-hidden">
-                <motion.div
-                    initial={{ width: "0%" }}
-                    whileInView={{ width: "85%" }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    className="h-full bg-amber-500"
-                ></motion.div>
-            </div>
-        </motion.div>
-    </div>
-)
-
-const WorkshopIllustration = () => (
-    <div className="absolute inset-0 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white">
-        <motion.div
-            whileHover={{ y: -5 }}
-            className="w-full h-full bg-white rounded-lg border border-gray-100 shadow-xl flex flex-col p-3 gap-2 relative"
-        >
-            <div className="flex-1 bg-teal-50 rounded border border-teal-100 flex items-center justify-center overflow-hidden relative">
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="w-16 h-16 border border-teal-200 rounded-sm"
-                ></motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent"></div>
-            </div>
-            <div className="h-10 flex gap-2 justify-center items-end pb-1">
-                {[1, 2, 3, 4, 5].map((i) => (
-                    <motion.div
-                        key={i}
-                        animate={{ y: [0, -3, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                        className="w-4 h-6 bg-gray-200 rounded-t-full"
-                    ></motion.div>
-                ))}
-            </div>
-        </motion.div>
-    </div>
-)
-
-const MentorshipIllustration = () => (
-    <div className="absolute inset-0 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white">
-        <div className="relative w-full h-full flex items-center justify-center">
-            {/* Mentor */}
-            <motion.div
-                initial={{ x: -20, opacity: 0 }}
-                whileInView={{ x: -10, opacity: 1 }}
-                className="w-14 h-14 bg-blue-600 rounded-full border-2 border-white z-10 flex flex-col items-center justify-end overflow-hidden shadow-lg"
+                className="absolute inset-0"
             >
-                <div className="w-6 h-6 bg-white/20 rounded-full mb-1"></div>
-                <div className="w-10 h-6 bg-white/20 rounded-t-full"></div>
+                <div className="absolute inset-0 border-2 border-white/70 rounded-full" />
+                <motion.div
+                    animate={{ scale: [0.6, 1, 0.6] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="absolute inset-1 border-2 border-white/50 rounded-full"
+                />
             </motion.div>
-
-            {/* Connection line */}
             <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: 40 }}
-                className="h-1 bg-gradient-to-r from-cyan-600 to-blue-500 z-0"
-            ></motion.div>
-
-            {/* Mentee */}
-            <motion.div
-                initial={{ x: 20, opacity: 0 }}
-                whileInView={{ x: 10, opacity: 1 }}
-                className="w-10 h-10 bg-indigo-500 rounded-full border-2 border-white z-10 flex flex-col items-center justify-end overflow-hidden mt-6 shadow-md"
-            >
-                <div className="w-4 h-4 bg-white/40 rounded-full mb-0.5"></div>
-                <div className="w-8 h-4 bg-white/40 rounded-t-full"></div>
-            </motion.div>
-
-            {/* Floating thought bubbles */}
-            <motion.div animate={{ y: [0, -5, 0], opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute top-4 left-1/3 w-3 h-3 bg-blue-400 rounded-full"></motion.div>
-            <motion.div animate={{ y: [0, -8, 0], opacity: [0, 1, 0] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }} className="absolute top-2 left-1/2 w-4 h-4 bg-indigo-400 rounded-full"></motion.div>
+                animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute inset-2 bg-white/30 rounded-full"
+            />
+            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-white/40 -translate-y-1/2" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/40 -translate-x-1/2" />
+            {[0, 1, 2, 3].map(i => (
+                <motion.div
+                    key={i}
+                    animate={{ scale: [0, 1, 0], opacity: [0, 1, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
+                    className="absolute w-1 h-1 bg-white rounded-full"
+                    style={{
+                        top: `${50 + 35 * Math.sin(i * Math.PI / 2)}%`,
+                        left: `${50 + 35 * Math.cos(i * Math.PI / 2)}%`,
+                        transform: 'translate(-50%, -50%)'
+                    }}
+                />
+            ))}
         </div>
-    </div>
-)
+    ),
+    CP: () => (
+        <div className="relative w-8 h-8 flex items-center justify-center">
+            <motion.span
+                animate={{ x: [-2, -5, -2], color: ["rgba(255,255,255,0.7)", "rgba(255,255,255,1)", "rgba(255,255,255,0.7)"] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="font-mono font-bold text-lg leading-none"
+            >{"<"}</motion.span>
+            <motion.span
+                animate={{ opacity: [0, 1, 0], scaleY: [0.5, 1, 0.5] }}
+                transition={{ duration: 1, repeat: Infinity }}
+                className="text-white/80 font-mono text-sm mx-0.5"
+            >/</motion.span>
+            <motion.span
+                animate={{ x: [2, 5, 2], color: ["rgba(255,255,255,0.7)", "rgba(255,255,255,1)", "rgba(255,255,255,0.7)"] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="font-mono font-bold text-lg leading-none"
+            >{">"}</motion.span>
+            {/* Cursor blink */}
+            <motion.div
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+                className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-3 h-[2px] bg-white/90"
+            />
+            {/* Floating brackets */}
+            {[0, 1].map(i => (
+                <motion.div
+                    key={i}
+                    animate={{ y: [-3, -10], opacity: [0.8, 0], x: [0, i === 0 ? -4 : 4] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.8 }}
+                    className="absolute top-0 text-[8px] text-white/60 font-mono"
+                >{i === 0 ? "{" : "}"}</motion.div>
+            ))}
+        </div>
+    ),
+    Content: () => (
+        <div className="relative w-8 h-8">
+            <motion.div
+                animate={{ rotate: [0, -5, 0, 5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center"
+            >
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+            </motion.div>
+            {/* Writing lines animation */}
+            {[0, 1, 2].map(i => (
+                <motion.div
+                    key={i}
+                    animate={{ width: ["0%", "100%", "0%", "0%"] }}
+                    transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4 }}
+                    className="absolute h-[1.5px] bg-white/50 rounded-full"
+                    style={{ bottom: `${4 + i * 4}px`, left: "2px", maxWidth: "calc(100% - 4px)" }}
+                />
+            ))}
+        </div>
+    ),
+    Design: () => (
+        <div className="relative w-8 h-8">
+            {/* Brush */}
+            <motion.div
+                animate={{ x: [-4, 4, -4], rotate: [-15, 15, -15] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center"
+            >
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+            </motion.div>
+            {/* Paint splashes */}
+            {[
+                { color: "bg-pink-300", delay: 0, x: -2, y: -3 },
+                { color: "bg-yellow-300", delay: 0.5, x: 5, y: 1 },
+                { color: "bg-green-300", delay: 1.0, x: 0, y: 5 },
+                { color: "bg-blue-300", delay: 1.5, x: -4, y: 2 },
+            ].map((s, i) => (
+                <motion.div
+                    key={i}
+                    animate={{
+                        scale: [0, 1.2, 0],
+                        opacity: [0, 0.9, 0],
+                        x: [0, s.x * 2],
+                        y: [0, s.y * 2],
+                    }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: s.delay }}
+                    className={`absolute w-2 h-2 rounded-full ${s.color}`}
+                    style={{ top: "50%", left: "50%" }}
+                />
+            ))}
+        </div>
+    ),
+    PR: () => (
+        <div className="relative w-8 h-8 flex items-center justify-center">
+            <motion.div
+                animate={{ rotate: [-8, 8, -8], scale: [1, 1.05, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                </svg>
+            </motion.div>
+            {/* Sound waves */}
+            {[0, 1, 2].map(i => (
+                <motion.div
+                    key={i}
+                    animate={{
+                        width: [4, 12 + i * 4],
+                        height: [4, 12 + i * 4],
+                        opacity: [0.9, 0],
+                        borderWidth: [2, 0.5],
+                    }}
+                    transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.35 }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 border-white rounded-full"
+                    style={{ borderStyle: "solid" }}
+                />
+            ))}
+        </div>
+    ),
+    Photography: () => (
+        <div className="relative w-8 h-8 flex items-center justify-center">
+            <motion.div
+                animate={{ scale: [1, 0.9, 1] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </motion.div>
+            {/* Flash effect */}
+            <motion.div
+                animate={{ scale: [0, 2, 0], opacity: [0, 0.8, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, delay: 1.2 }}
+                className="absolute top-0 right-0.5 w-3 h-3 bg-yellow-200 rounded-full"
+            />
+            {/* Shutter animation */}
+            <motion.div
+                animate={{ scale: [1, 0.3, 1], opacity: [0, 1, 0] }}
+                transition={{ duration: 0.3, repeat: Infinity, repeatDelay: 2.2 }}
+                className="absolute inset-2.5 bg-white/20 rounded-full"
+            />
+        </div>
+    ),
+}
 
-const highlights = [
+const domains = [
     {
-        title: "Web Arcs",
-        desc: "Frontend & Fullstack Development",
-        illustration: <WebIllustration />,
-        icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+        title: "DataVerse",
+        desc: "AI, ML & Data Science — Turning data into insights through statistical modeling, machine learning, and deep learning.",
+        color: "from-purple-500 to-indigo-600",
+        IconComponent: DomainAnimatedIcons.DataVerse,
     },
     {
-        title: "Data Verse",
-        desc: "AI, ML & Data Science",
-        illustration: <DataIllustration />,
-        icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
+        title: "WebArcs",
+        desc: "Frontend & Fullstack Development — Building modern, responsive web applications using React, Node.js, and beyond.",
+        color: "from-cyan-500 to-blue-600",
+        IconComponent: DomainAnimatedIcons.WebArcs,
     },
     {
-        title: "Creative",
-        desc: "Design & UX/UI",
-        illustration: <CreativeIllustration />,
-        icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
+        title: "CP",
+        desc: "Competitive Programming — Sharpening problem-solving skills through algorithmic challenges and coding contests.",
+        color: "from-amber-500 to-orange-600",
+        IconComponent: DomainAnimatedIcons.CP,
     },
     {
-        title: "Hackathons",
-        desc: "Competitive Coding",
-        illustration: <HackathonIllustration />,
-        icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+        title: "Content",
+        desc: "Content Creation & Writing — Crafting compelling stories, blogs, and copy that represent MDC's voice.",
+        color: "from-emerald-500 to-teal-600",
+        IconComponent: DomainAnimatedIcons.Content,
     },
     {
-        title: "Workshops",
-        desc: "Technical Learning",
-        illustration: <WorkshopIllustration />,
-        icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+        title: "Design",
+        desc: "UX/UI & Graphic Design — Creating stunning visuals, interfaces, and brand identities that leave an impact.",
+        color: "from-pink-500 to-rose-600",
+        IconComponent: DomainAnimatedIcons.Design,
     },
     {
-        title: "Mentorship",
-        desc: "Industry Guidance",
-        illustration: <MentorshipIllustration />,
-        icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-    }
+        title: "PR",
+        desc: "Public Relations & Outreach — Connecting MDC with the world through events, partnerships, and communication.",
+        color: "from-violet-500 to-purple-600",
+        IconComponent: DomainAnimatedIcons.PR,
+    },
+    {
+        title: "Photography",
+        desc: "Photography & Videography — Documenting moments, events, and behind-the-scenes stories visually.",
+        color: "from-teal-500 to-cyan-600",
+        IconComponent: DomainAnimatedIcons.Photography,
+    },
 ]
 
 export default function MDCHighlights() {
     return (
-        <section className="py-24 bg-gray-50 text-gray-900 border-t border-gray-100">
+        <section className="py-10 bg-gray-50 text-gray-900">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16">
                     <div>
@@ -221,70 +277,37 @@ export default function MDCHighlights() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {highlights.map((item, index) => (
-                        <div
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {domains.map((item, index) => (
+                        <motion.div
                             key={index}
-                            className="group relative bg-white border border-gray-200 rounded-3xl overflow-hidden hover:border-blue-200 hover:shadow-2xl transition-all duration-300 h-[280px] flex flex-col"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.08, duration: 0.5 }}
+                            whileHover={{ y: -6 }}
+                            className="group relative bg-white border border-gray-200 rounded-3xl overflow-hidden hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-300"
                         >
-                            {/* Top part: The Illustration container */}
-                            <div className="flex-1 relative overflow-hidden bg-gray-50">
-                                {/* Default Engaging State */}
-                                <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 group-hover:opacity-0 opacity-100 overflow-hidden">
-                                    {/* Animated gradient background */}
-                                    <div
-                                        className="absolute inset-0 opacity-30"
-                                        style={{
-                                            background: `linear-gradient(135deg, ${index === 0 ? '#3b82f6, #6366f1' :
-                                                    index === 1 ? '#8b5cf6, #a855f7' :
-                                                        index === 2 ? '#ec4899, #f43f5e' :
-                                                            index === 3 ? '#f59e0b, #ef4444' :
-                                                                index === 4 ? '#14b8a6, #06b6d4' :
-                                                                    '#6366f1, #3b82f6'
-                                                })`,
-                                        }}
-                                    ></div>
-                                    {/* Floating decorative circles */}
-                                    <motion.div
-                                        animate={{ y: [0, -8, 0], x: [0, 4, 0] }}
-                                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                        className="absolute top-4 right-6 w-12 h-12 rounded-full border border-white/30"
-                                    ></motion.div>
-                                    <motion.div
-                                        animate={{ y: [0, 6, 0], x: [0, -3, 0] }}
-                                        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                                        className="absolute bottom-6 left-8 w-8 h-8 rounded-full border border-white/20"
-                                    ></motion.div>
-                                    {/* Icon */}
-                                    <motion.div
-                                        animate={{ y: [0, -4, 0] }}
-                                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                        className="w-16 h-16 rounded-2xl bg-white shadow-lg border border-gray-100 flex items-center justify-center text-blue-600 mb-3 relative z-10"
-                                    >
-                                        {item.icon}
-                                    </motion.div>
-                                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-widest relative z-10">
-                                        {item.desc}
-                                    </span>
+                            {/* Top gradient bar */}
+                            <div className={`h-1.5 w-full bg-gradient-to-r ${item.color}`}></div>
+
+                            <div className="p-6 flex flex-col items-center text-center">
+                                {/* Icon — highly animated */}
+                                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white mb-5 shadow-lg`}>
+                                    <item.IconComponent />
                                 </div>
 
-                                {/* Hover Illustration */}
-                                {item.illustration}
-                            </div>
-
-                            {/* Bottom part: Content */}
-                            <div className="p-6 bg-white border-t border-gray-100 relative z-10 transition-transform duration-500">
-                                <h3 className="text-xl font-bold mb-1 text-gray-900 flex items-center gap-2">
+                                {/* Title */}
+                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                                     {item.title}
-                                    <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                    </svg>
                                 </h3>
-                                <p className="text-gray-500 text-sm">
+
+                                {/* Desc */}
+                                <p className="text-gray-500 text-sm leading-relaxed">
                                     {item.desc}
                                 </p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
