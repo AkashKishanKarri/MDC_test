@@ -58,7 +58,7 @@ export default function AboutMDC() {
                     <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-white border border-gray-100 p-2">
                         <div className="rounded-2xl overflow-hidden">
                             <img
-                                src={mdcImage}
+                                src="/team-photo.jpg"
                                 alt="Meta Developer Communities"
                                 className="w-full h-auto object-cover rounded-2xl"
                             />

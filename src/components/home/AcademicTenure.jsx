@@ -189,8 +189,10 @@ const roleBadgeStyles = {
     "President": { bg: "bg-gradient-to-r from-amber-500 to-orange-500", text: "text-white", glow: "shadow-amber-300/40", ring: "from-amber-400 to-orange-500" },
     "Vice President": { bg: "bg-gradient-to-r from-blue-500 to-indigo-500", text: "text-white", glow: "shadow-blue-300/40", ring: "from-blue-400 to-indigo-500" },
     "Secretary": { bg: "bg-gradient-to-r from-emerald-500 to-teal-500", text: "text-white", glow: "shadow-emerald-300/40", ring: "from-emerald-400 to-teal-500" },
-    "Treasurer": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white", glow: "shadow-purple-300/40", ring: "from-purple-400 to-violet-500" },
-    "Joint Secretary": { bg: "bg-gradient-to-r from-cyan-500 to-blue-500", text: "text-white", glow: "shadow-cyan-300/40", ring: "from-cyan-400 to-blue-500" },
+    "HOP": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white", glow: "shadow-purple-300/40", ring: "from-purple-400 to-violet-500" },
+    "Head of Operations": { bg: "bg-gradient-to-r from-purple-500 to-violet-500", text: "text-white", glow: "shadow-purple-300/40", ring: "from-purple-400 to-violet-500" },
+    "Creative Head": { bg: "bg-gradient-to-r from-cyan-500 to-blue-500", text: "text-white", glow: "shadow-cyan-300/40", ring: "from-cyan-400 to-blue-500" },
+    "Technical Head": { bg: "bg-gradient-to-r from-indigo-500 to-purple-500", text: "text-white", glow: "shadow-indigo-300/40", ring: "from-indigo-400 to-purple-500" },
     "Lead": { bg: "bg-gradient-to-r from-indigo-500 to-blue-500", text: "text-white", glow: "shadow-indigo-300/40", ring: "from-indigo-400 to-blue-500" },
     "Member": { bg: "bg-gray-100", text: "text-gray-600", glow: "", ring: "from-gray-300 to-gray-400" },
 }
@@ -265,7 +267,7 @@ export default function AcademicTenure() {
                 </motion.div>
 
                 {/* Year Dropdown Selector */}
-                <div className="flex justify-center mb-16">
+                <div className="flex justify-center mb-16 relative z-50">
                     <div className="relative">
                         <select
                             value={selectedYear}
@@ -292,7 +294,7 @@ export default function AcademicTenure() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.4 }}
-                        className="space-y-20"
+                        className="space-y-10 relative z-10"
                     >
                         {domainSections.map((section, sectionIndex) => (
                             <motion.div
@@ -302,7 +304,7 @@ export default function AcademicTenure() {
                                 transition={{ delay: sectionIndex * 0.08, duration: 0.5 }}
                             >
                                 {/* Domain Header */}
-                                <div className="flex items-center gap-4 mb-10">
+                                <div className="flex items-center gap-4 mb-6">
                                     <motion.div
                                         whileHover={{ scale: 1.1, rotate: 5 }}
                                         className={`w-12 h-12 rounded-xl bg-gradient-to-br ${section.colors.bg} flex items-center justify-center shadow-lg overflow-hidden`}
@@ -331,6 +333,8 @@ export default function AcademicTenure() {
                                             loop={section.members.length > 3}
                                             speed={3000}
                                             autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                                            preventClicks={false}
+                                            preventClicksPropagation={false}
                                             breakpoints={{
                                                 480: { slidesPerView: 2 },
                                                 640: { slidesPerView: 3 },
@@ -346,19 +350,17 @@ export default function AcademicTenure() {
                                                         const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
                                                         return (
                                                             <div className="text-center py-3">
-                                                                {/* Large round image with gradient ring */}
-                                                                <div className={`w-36 h-36 mx-auto mb-4 rounded-full p-1 bg-gradient-to-br ${style.ring} shadow-xl ${style.glow}`}>
-                                                                    <div className="w-full h-full rounded-full overflow-hidden bg-white">
-                                                                        <img
-                                                                            src={member.img}
-                                                                            alt={member.name}
-                                                                            className="w-full h-full object-cover object-top"
-                                                                            loading="lazy"
-                                                                            onError={(e) => {
-                                                                                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
-                                                                            }}
-                                                                        />
-                                                                    </div>
+                                                                {/* Large round image — clean, no neon ring */}
+                                                                <div className="w-36 h-36 mx-auto mb-4 rounded-full overflow-hidden bg-gray-100 border-2 border-white shadow-lg">
+                                                                    <img
+                                                                        src={member.img}
+                                                                        alt={member.name}
+                                                                        className="w-full h-full object-cover object-top"
+                                                                        loading="lazy"
+                                                                        onError={(e) => {
+                                                                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f3f4f6&color=2563eb&size=300&font-size=0.35`
+                                                                        }}
+                                                                    />
                                                                 </div>
                                                                 {/* Name */}
                                                                 <p className="text-base font-bold text-gray-900 leading-tight mb-2">
@@ -371,19 +373,19 @@ export default function AcademicTenure() {
                                                                     <span className="w-1.5 h-1.5 rounded-full bg-white/60"></span>
                                                                 </span>
                                                                 {/* Contact icons for EB */}
-                                                                <div className="flex justify-center gap-2 mt-3">
+                                                                <div className="flex justify-center gap-2 mt-3 z-50 relative pointer-events-auto">
                                                                     {member.phone && (
                                                                         <a href={`tel:${member.phone}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Phone">
                                                                             <PhoneIcon />
                                                                         </a>
                                                                     )}
                                                                     {member.email && (
-                                                                        <a href={`mailto:${member.email}`} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
+                                                                        <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
                                                                             <EmailIcon />
                                                                         </a>
                                                                     )}
                                                                     {member.linkedin && (
-                                                                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
+                                                                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
                                                                             <LinkedInIcon />
                                                                         </a>
                                                                     )}
@@ -396,7 +398,7 @@ export default function AcademicTenure() {
                                         </Swiper>
                                     ) : (
                                         /* Domain members: stacked flex-wrap grid, no hover */
-                                        <div className="flex flex-wrap gap-6 justify-start">
+                                        <div className="flex flex-wrap gap-4 justify-start">
                                             {section.members.map((member, memberIndex) => {
                                                 const style = roleBadgeStyles[member.role] || roleBadgeStyles.Member
                                                 return (
@@ -422,11 +424,11 @@ export default function AcademicTenure() {
                                                         <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-3 py-1 rounded-full shadow-sm ${style.bg} ${style.text}`}>
                                                             {member.role}
                                                         </span>
-                                                        {/* Email + LinkedIn for domain members */}
+                                                        {/* Contact icons for domain members */}
                                                         {(member.email || member.linkedin) && (
-                                                            <div className="flex justify-center gap-1.5 mt-2">
+                                                            <div className="flex justify-center gap-1.5 mt-2 z-50 relative pointer-events-auto">
                                                                 {member.email && (
-                                                                    <a href={`mailto:${member.email}`} className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
+                                                                    <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="Email">
                                                                         <EmailIcon />
                                                                     </a>
                                                                 )}
@@ -456,7 +458,7 @@ export default function AcademicTenure() {
 
                                 {/* Section Divider */}
                                 {sectionIndex < domainSections.length - 1 && (
-                                    <div className="flex items-center gap-4 mt-8 max-w-lg mx-auto">
+                                    <div className="flex items-center gap-4 mt-4 max-w-lg mx-auto">
                                         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
                                         <div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>
                                         <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>

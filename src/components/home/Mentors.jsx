@@ -2,19 +2,19 @@ import { motion } from "framer-motion"
 
 const mentors = [
     {
-        name: "Dr. Mentor One",
-        role: "Faculty Advisor",
-        img: "https://randomuser.me/api/portraits/men/21.jpg"
+        name: "Dr. Rojeena Mathew",
+        role: "Director - TMCG, GCGC",
+        img: "./rojeena.jpg"
     },
     {
-        name: "Dr. Mentor Two",
-        role: "Technical Mentor",
-        img: "https://randomuser.me/api/portraits/women/22.jpg"
+        name: "Prof. UmaDevi Kancharla",
+        role: "Senior Director & Head - GCGC",
+        img: "./umadevi.jpg"
     },
     {
-        name: "Dr. Mentor Three",
-        role: "Industry Mentor",
-        img: "https://randomuser.me/api/portraits/men/23.jpg"
+        name: "Mr. Jitendra Dasari",
+        role: "Assistant Manager",
+        img: "./jitendra.jpg"
     }
 ]
 

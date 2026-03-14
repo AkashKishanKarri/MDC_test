@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
-import { collection, query, orderBy, limit, getDocs } from "firebase/firestore"
+import { collection, query, orderBy, limit, getDocs, where } from "firebase/firestore"
 import { db } from "../../firebase/firebase"
 
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -17,7 +17,11 @@ export default function EventsSection() {
     useEffect(() => {
         const fetchRecentEvents = async () => {
             try {
-                const q = query(collection(db, "events"), orderBy("createdAt", "desc"), limit(6))
+                const q = query(
+                    collection(db, "events"),
+                    orderBy("date", "desc"),
+                    limit(5)
+                )
                 const snapshot = await getDocs(q)
                 const eventsList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
                 setEvents(eventsList)
@@ -141,34 +145,9 @@ export default function EventsSection() {
                 )}
 
                 <div className="text-center mt-12 md:hidden">
-                    <button
-                        // The original code had `navigate` which was not defined.
-                        // Assuming it should link to /events, using Link component or window.location.
-                        // For simplicity and to match the existing Link usage, I'll keep it as a button
-                        // but remove the undefined `navigate` call. If `navigate` is from `useNavigate`,
-                        // it needs to be imported and initialized.
-                        // For now, I'll comment out the onClick or replace with a simple redirect if needed.
-                        // As per instruction, only closing tags, so I'll just ensure the structure is correct.
-                        // The instruction only provided the closing tags, not a change to this button's functionality.
-                        // The original code had `onClick={() => navigate("/events")}`.
-                        // Since `navigate` is not defined in this scope, it would cause an error.
-                        // To make the code syntactically correct and functional without adding new imports,
-                        // I will remove the `onClick` for now, or if the intent is to navigate,
-                        // the user would need to add `useNavigate` hook.
-                        // Given the instruction is about closing tags, I will assume the `navigate`
-                        // function was intended to be available and just ensure the structure is correct.
-                        // However, to avoid a runtime error, I'll remove the `onClick` for now.
-                        // If the user wants navigation, they should add `useNavigate` and call it.
-                        // For now, I'll just ensure the HTML structure is valid.
-                        // Re-reading the instruction: "Properly close the remaining div elements that were cut off during the replacement of EventsSection.jsx"
-                        // This means I should only focus on the closing tags and not alter the button's functionality.
-                        // The `navigate` function is indeed missing. I will leave it as is, as the instruction
-                        // is strictly about closing tags, not fixing undefined variables.
-                        onClick={() => navigate("/events")}
-                        className="px-8 py-3 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold rounded-xl transition-colors w-full"
-                    >
+                    <Link to="/events" className="inline-block px-8 py-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-600 font-semibold rounded-xl transition-colors w-full">
                         View All Events
-                    </button>
+                    </Link>
                 </div>
 
             </div>

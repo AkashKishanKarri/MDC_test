@@ -1,7 +1,7 @@
 /* Contact Us — Card Image Styles */
 .eb-avatar-card {
     width: 100%;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #f3f4f6;
 }

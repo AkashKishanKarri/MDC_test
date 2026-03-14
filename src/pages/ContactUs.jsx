@@ -9,42 +9,50 @@ const ebMembers = [
     {
         name: "Nitish Raj Vinnakota",
         designation: "President",
-        email: "president@mdc.com",
+        email: "nvinnako2@gitam.in",
         linkedin: "https://linkedin.com/in/",
-        phone: "+91 98765 43210",
+        phone: "+91 6304003099",
         img: "./25_26/EB_25-26/VINNAKOTA NITISH RAJ.jpg"
     },
     {
         name: "Rachakonda V S S Gagan",
         designation: "Vice President",
-        email: "vicepresident@mdc.com",
+        email: "grachako2@gitam.in",
         linkedin: "https://linkedin.com/in/",
-        phone: "+91 98765 43211",
-        img: "./25_26/EB_25-26/RACHAKONDA V S S GAGAN.webp"
+        phone: "+91 8978082388",
+        img: "./25_26/EB_25-26/RACHAKONDA V S S GAGAN.jpg"
     },
     {
         name: "Sravani Kalisetty",
-        designation: "Secretary",
-        email: "techlead@mdc.com",
+        designation: "Creative Head",
+        email: "skaliset@gitam.in",
         linkedin: "https://linkedin.com/in/",
-        phone: "+91 98765 43212",
+        phone: "+91 8919424414",
         img: "./25_26/EB_25-26/SRAVANI KALISETTY.jpg"
     },
     {
         name: "Snehal Andavarapu",
-        designation: "Treasurer",
-        email: "creative@mdc.com",
+        designation: "Secretary",
+        email: "sandavar@gitam.in",
         linkedin: "https://linkedin.com/in/",
-        phone: "+91 98765 43213",
+        phone: "+91 8917562924",
         img: "./25_26/EB_25-26/SNEHAL ANDAVARAPU.jpg"
     },
     {
         name: "Ishita Gupta",
-        designation: "Joint Secretary",
-        email: "events@mdc.com",
+        designation: "Technical Head",
+        email: "igupta@gitam.in",
         linkedin: "https://linkedin.com/in/",
-        phone: "+91 98765 43214",
+        phone: "+91 7205640451",
         img: "./25_26/EB_25-26/ISHITA GUPTA.jpg"
+    },
+    {
+        name: "Palla Jothisk Nandan",
+        designation: "HOP",
+        email: "jpalla2@gitam.in",
+        linkedin: "https://linkedin.com/in/",
+        phone: "+91 6304110542",
+        img: "./25_26/EB_25-26/PALLA JOTHISK NANDAN.jpg"
     }
 ]
 
@@ -60,9 +68,15 @@ function InterestFormFull() {
     const buildMailtoHref = () => {
         const subject = encodeURIComponent(`Interest Form - ${formData.name} (${formData.rollNo})`)
         const body = encodeURIComponent(
-            `Name: ${formData.name}\nRoll No: ${formData.rollNo}\nPhone: ${formData.phone}\nEmail: ${formData.email}\n\nDescription:\n${formData.description}`
+            `Name: ${formData.name}
+Registration Number: ${formData.rollNo}
+Phone: ${formData.phone}
+GITAM Mail ID: ${formData.email}
+
+Description:
+${formData.description}`
         )
-        return `mailto:mdc@gitam.in?subject=${subject}&body=${body}`
+        return `https://mail.google.com/mail/?view=cm&fs=1&to=mdc@gitam.in&su=${subject}&body=${body}`
     }
 
     const isValid = formData.name && formData.rollNo && formData.email
@@ -85,7 +99,7 @@ function InterestFormFull() {
                     <input name="name" value={formData.name} onChange={handleChange} placeholder="Your full name" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Roll No *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Registration Number *</label>
                     <input name="rollNo" value={formData.rollNo} onChange={handleChange} placeholder="e.g. VU21CSEN0100123" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
                 </div>
             </div>
@@ -96,8 +110,8 @@ function InterestFormFull() {
                     <input name="phone" value={formData.phone} onChange={handleChange} placeholder="+91 ..." type="tel" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                    <input name="email" value={formData.email} onChange={handleChange} placeholder="you@email.com" type="email" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
+                    <label className="block text-sm font-medium text-gray-700 mb-1">GITAM Mail ID *</label>
+                    <input name="email" value={formData.email} onChange={handleChange} placeholder="yourname@gitam.in" type="email" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800 placeholder-gray-400" />
                 </div>
             </div>
 
@@ -152,11 +166,13 @@ export default function ContactUs() {
                 >
                     <Swiper
                         modules={[Autoplay]}
-                        spaceBetween={24}
+                        spaceBetween={18}
                         slidesPerView={1}
                         loop={true}
                         speed={3000}
                         autoplay={{ delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                        preventClicks={false}
+                        preventClicksPropagation={false}
                         breakpoints={{
                             640: { slidesPerView: 2 },
                             1024: { slidesPerView: 3 }
@@ -166,7 +182,7 @@ export default function ContactUs() {
                     >
                         {ebMembers.map((member, index) => (
                             <SwiperSlide key={index}>
-                                <div className="bg-white border border-gray-200 rounded-3xl overflow-hidden hover:border-blue-300 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 h-full flex flex-col group">
+                                <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 h-full flex flex-col group max-w-[240px] mx-auto">
                                     {/* Square/Rectangle Image — aspect-ratio controlled, no crop */}
                                     <div className="eb-avatar-card">
                                         <img
@@ -180,8 +196,8 @@ export default function ContactUs() {
                                     </div>
 
                                     {/* Info */}
-                                    <div className="p-5 text-center flex-1 flex flex-col">
-                                        <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
+                                    <div className="p-4 text-center flex-1 flex flex-col">
+                                        <h3 className="text-sm font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
                                             {member.name}
                                         </h3>
                                         <span className="inline-block bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 self-center shadow-md">
@@ -189,14 +205,32 @@ export default function ContactUs() {
                                         </span>
 
                                         {/* Icon-only contact buttons */}
-                                        <div className="flex justify-center gap-3 mt-auto">
-                                            <a href={`tel:${member.phone}`} className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title={member.phone}>
+                                        <div className="flex justify-center gap-3 mt-auto z-10 relative">
+                                            <a href={`tel:${member.phone}`} onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `tel:${member.phone}`; }} className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title={member.phone}>
                                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                                             </a>
-                                            <a href={`mailto:${member.email}`} className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title={member.email}>
-                                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                            <a
+                                                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${member.email}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors"
+                                                title={`Email ${member.name}`}
+                                            >
+                                                <svg
+                                                    className="w-5 h-5"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                                    />
+                                                </svg>
                                             </a>
-                                            <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
+                                            <a href={member.linkedin} onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.open(member.linkedin, '_blank'); }} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-blue-100 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors" title="LinkedIn">
                                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" /></svg>
                                             </a>
                                         </div>

@@ -6,6 +6,11 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+.logo {
+  width: 128px;
+  height: 128px;
+}
+
 /* .glass {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(14px);
